@@ -1,0 +1,23 @@
+{
+  "name": "corci-libs",
+  "version": "0.0.1",
+  "description": "corci-libs",
+  "main": "index.js",
+  "author": "Maik Hummel <yo@beevelop.com>",
+  "dependencies": {},
+  "devDependencies": {
+    "grunt": "0.4.5",
+    "grunt-contrib-jshint": "0.10.0",
+    "grunt-jsdoc": "^0.6.0"
+  },
+  "scripts": {
+    "test": "grunt --verbose"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/beevelop/corci-libs"
+  },
+  "bugs": {
+    "url": "https://github.com/beevelop/corci-libs/issues"
+  }
+}
