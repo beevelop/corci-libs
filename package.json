@@ -1,15 +1,19 @@
 {
   "name": "corci-libs",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "corci-libs",
   "main": "index.js",
   "author": "Maik Hummel <yo@beevelop.com>",
   "dependencies": {
     "array-sugar": "^1.2.0",
+    "async": "^0.9.0",
     "circular-json": "^0.1.6",
     "date-format-lite": "^0.6.0",
     "elapsed": "0.0.3",
+    "extend": "^2.0.0",
+    "fs-extra": "^0.14.0",
     "multi-glob": "^0.4.0",
+    "shortid": "^2.1.3",
     "stringformat": "0.0.5",
     "unzip": "^0.1.11"
   },
