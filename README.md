@@ -2,9 +2,9 @@
 [![Dependency Status](https://gemnasium.com/beevelop/corci-libs.svg)](https://gemnasium.com/beevelop/corci-libs)
 [![Code Climate](https://codeclimate.com/github/beevelop/corci-libs/badges/gpa.svg)](https://codeclimate.com/github/beevelop/corci-libs)
 
-# corCI-libs
+# CorCI-libs
 
-This library is part of all corCI components.
+This library is part of all CorCI-components.
 
 # Disclaimer
 
