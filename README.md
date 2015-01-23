@@ -11,3 +11,9 @@ This library is part of all CorCI-components.
 # Disclaimer
 
 This project is currently under heavy development and might be unstable. Don't use it in production (unless you're adventurous).
+
+## Notes
+- extends **String** via *stringformat*
+- extends **Object** with the `.every(...)` function
+- extends **Date** via *date-format-lite*
+- extends **Array** via *array-sugar*
