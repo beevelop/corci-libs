@@ -3,12 +3,15 @@
  * @fileoverview general Build object
  */
 
-var Common = require('./Common');
+var Common = require('./../lib/Common');
 var CircularJSON = Common.circularJSON;
 var extend = Common.extend;
 var fs = Common.fsExtra;
 
 var path = require('path');
+var util = require('util');
+var EventEmitter = require('events').EventEmitter;
+
 var statuses = ['unknown', 'cancelled', 'success', 'planned', 'queued', 'uploading', 'building', 'failed'];
 
 /**
@@ -50,6 +53,10 @@ function Build(conf, client, agent, platform, files, outputFiles, id, masterId) 
         this.outputFiles = outputFiles;
     }
 }
+
+util.inherits(Build, EventEmitter);
+
+Build.STATUS = require('./BuildStatus');
 
 Build.prototype.createFromObject = function (conf) {
     var b = conf || {};
