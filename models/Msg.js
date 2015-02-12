@@ -3,9 +3,9 @@
  * @fileoverview class for log messages
  */
 
-require('./utils');
+require('./../lib/utils');
 
-var Common = require('./Common');
+var Common = require('./../lib/Common');
 var extend = Common.extend;
 var splice = Array.prototype.splice;
 
