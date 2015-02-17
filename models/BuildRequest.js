@@ -1,6 +1,5 @@
 /**
  * @name BuildRequest
- * @version 0.1.0
  * @fileoverview general BuildRequest object
  */
 
