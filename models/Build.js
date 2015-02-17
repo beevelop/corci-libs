@@ -34,14 +34,6 @@ Build.prototype.getPlatform = function () {
     return this._platform;
 };
 
-Build.prototype.getLogs = function () {
-    return this._logs;
-};
-
-Build.prototype.addLog = function (log) {
-    this._logs.push(log);
-};
-
 Build.prototype.getClient = function () {
     return this._client;
 };
