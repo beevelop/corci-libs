@@ -6,9 +6,8 @@
 
 var Build = require('./Build');
 var BuildFile = require('./BuildFile');
+var BuildRequestStatus = require('./BuildRequestStatus');
 var Common = require('./../lib/Common');
-var CircularJSON = Common.circularJSON;
-var fs = Common.fsExtra;
 
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
@@ -42,14 +41,16 @@ BuildRequest.prototype.getBRID = function () {
 };
 
 BuildRequest.prototype.setStatus = function (status) {
-    this._status = BuildRequest.STATUS[status] || BuildRequest.STATUS['unknown'];
-    if (this._status.inherits === true) {
-        var statusValue = this._status.value;
-        this._builds.forEach(function (build) {
-            build.setStatus(Build.STATUS[statusValue]);
-        })
+    if (this._status !== status) {
+        if (this._status.inherits === true) {
+            var statusValue = this._status.value;
+            this._builds.forEach(function (build) {
+                build.setStatus(Build.STATUS[statusValue]);
+            })
+        }
+        this._status = status;
+        this.emit('status', this, this._status);
     }
-    this.emit('status', this, this._status);
 };
 
 BuildRequest.prototype.getStatus = function () {
@@ -58,15 +59,23 @@ BuildRequest.prototype.getStatus = function () {
 
 BuildRequest.prototype.addBuild = function (platform) {
     var build = new Build(this.getBRID(), this.getClient(), platform);
+    var _this = this;
     build.on('status', function (status) {
-        //@todo: check status and update breq status
-        console.log('Build ' + build.getBID() + ' has a new status: ' + status);
+        if (_this.allBuildsFinished()) {
+            _this.setStatus(BuildRequestStatus.finished);
+        }
     });
     this._builds.push(build);
 };
 
 BuildRequest.prototype.getBuilds = function () {
     return this._builds;
+};
+
+BuildRequest.prototype.allBuildsFinished = function () {
+    return this.getBuilds().every(function (build) {
+        return build.getStatus().finished;
+    });
 };
 
 BuildRequest.prototype.getBuild = function (BID) {
@@ -104,7 +113,7 @@ BuildRequest.prototype.getClient = function () {
 
 BuildRequest.prototype.addBuildFile = function (bufi) {
     var builds = this.getBuilds();
-    if (bufi !== BuildFile.defaultPlatform) {
+    if (bufi.getPlatform() !== BuildFile.defaultPlatform) {
         builds = builds.filter(function (build) {
             return build.getPlatform() === bufi.getPlatform();
         });
@@ -116,21 +125,13 @@ BuildRequest.prototype.addBuildFile = function (bufi) {
 };
 
 BuildRequest.prototype.getArtifacts = function () {
-    return this._artifacts;
-};
+    var builds = this.getBuilds();
+    var artifacts = [];
+    builds.forEach(function (build) {
+        artifacts.push.apply(artifacts, build.getArtifacts());
+    });
 
-BuildRequest.prototype.addArtifact = function (artifact) {
-    this._artifacts.push(artifact);
-};
-
-BuildRequest.prototype.toString = function () {
-    //@todo: only allowed attributes (whitelist?)
-    return CircularJSON.stringify(this);
-};
-
-BuildRequest.prototype.save = function (folder) {
-    var localpath = path.resolve(folder, 'breq.json');
-    return fs.outputFileAsync(localpath, this.toString());
+    return artifacts;
 };
 
 module.exports = BuildRequest;
