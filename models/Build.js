@@ -3,17 +3,9 @@
  * @fileoverview general Build object
  */
 
-var Common = require('./../lib/Common');
-var CircularJSON = Common.circularJSON;
-
 var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 
-/**
- * Constructor of Archiver
- * initialises archiver detection
- * @class
- */
 function Build(BRID, client, platform) {
     this._BRID = BRID;
     this._BID = BRID + '-' + platform;
@@ -23,7 +15,7 @@ function Build(BRID, client, platform) {
     this._status = Build.STATUS.unknown;
 
     this._bufis = [];
-    this._logs = [];
+    this._artifacts = [];
 }
 
 util.inherits(Build, EventEmitter);
@@ -62,39 +54,23 @@ Build.prototype.addBuildFile = function (file) {
     this._bufis.push(file);
 };
 
-Build.prototype.toString = function () {
-    return CircularJSON.stringify(this);
+Build.prototype.getArtifacts = function () {
+    return this._artifacts;
+};
+
+Build.prototype.addArtifact = function (artifact) {
+    this._artifacts.push(artifact);
 };
 
 Build.prototype.setStatus = function (status) {
-    this._status = Build.STATUS[status] || Build.STATUS['unknown'];
-    this.emit('status', this._status);
+    if (this._status !== status) {
+        this._status = status;
+        this.emit('status', this._status);
+    }
 };
 
-// @todo: move to agent
-/*Build.prototype.save = function(buildPath, callback) {
-    var build = this;
-    var json = CircularJSON.stringify(build.serialize({
-        files: true,
-        outputFiles: true,
-        platforms: true,
-        content: false
-    }, {
-        files: true,
-        outputFiles: true,
-        content: false
-    }), null, 4);
-
-    try {
-        fs.writeFileSync(buildPath, json);
-    } catch (e) {
-        if (e) {
-            return callback && callback("Error while saving build.json for {0}:\n{1}".format(build.Id(), e), e, buildPath, json);
-        }
-    }
-    if (callback) {
-        callback(null, null, buildPath, json);
-    }
-};*/
+Build.prototype.getStatus = function () {
+    return this._status;
+};
 
 module.exports = Build;
