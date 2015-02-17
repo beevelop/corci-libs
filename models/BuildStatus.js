@@ -1,23 +1,30 @@
 module.exports = {
     unknown: {
-        value: 'unknown'
+        value: 'unknown',
+        finished: false
     },
     transferring: {
-        value: 'transferring'
-    },
-    building: {
-        value: 'building'
-    },
-    failed: {
-        value: 'failed'
-    },
-    cancelled: {
-        value: 'cancelled'
-    },
-    success: {
-        value: 'success'
+        value: 'transferring',
+        finished: false
     },
     queued: {
-        value: 'queued'
+        value: 'queued',
+        finished: false
+    },
+    building: {
+        value: 'building',
+        finished: false
+    },
+    failed: {
+        value: 'failed',
+        finished: true
+    },
+    cancelled: {
+        value: 'cancelled',
+        finished: true
+    },
+    success: {
+        value: 'success',
+        finished: true
     }
 };
