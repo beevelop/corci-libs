@@ -63,6 +63,7 @@ BuildRequest.prototype.addBuild = function (platform) {
         if (_this.allBuildsFinished()) {
             _this.setStatus(BuildRequestStatus.finished);
         }
+        _this.emit('build', build.getBID(), status);
     });
     this._builds.push(build);
 };
