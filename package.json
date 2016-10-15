@@ -18,7 +18,7 @@
     "stringformat": "0.0.5",
     "winston": "^2.2.0",
     "winston-pushover": "^0.1.7",
-    "yargs": "^5.0.0"
+    "yargs": "^6.1.1"
   },
   "devDependencies": {
     "grunt": "1.0.1",
